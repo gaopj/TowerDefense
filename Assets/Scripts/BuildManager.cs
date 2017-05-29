@@ -11,11 +11,24 @@ public class BuildManager : MonoBehaviour {
 
 	//表示当前选择的炮台
 	private TurretDate selectedTurret;
+
+	//场景中显示UI的炮台
+	private GameObject selectedTurretUI;
+
 	public Text moneyText;
 
 	public Animator moneyAnimator;
 
 	private int money = 1000;
+
+	public GameObject upgradeCanvas;
+	public Button buttonUpgrade;
+
+	private Animator upgradeCanvasAnimator;
+
+	void Start(){
+		upgradeCanvasAnimator = upgradeCanvas.GetComponent<Animator> ();
+	}
 
 	void ChangeMoney(int change=0){
 		money += change;
@@ -42,6 +55,13 @@ public class BuildManager : MonoBehaviour {
 						}
 					} else if(mapCube.turretGo!=null){
 						//升级处理
+
+						if (mapCube.turretGo == selectedTurretUI && upgradeCanvas.activeInHierarchy) {
+							StartCoroutine(HideUpgradeUI  ());
+						} else {
+							ShowUpgradeUI(mapCube.transform.position,mapCube.isUpgraded);
+						}
+						selectedTurretUI = mapCube.turretGo;
 					}
 				}
 			}
@@ -61,5 +81,26 @@ public class BuildManager : MonoBehaviour {
 		if (isOn) {
 			selectedTurret = standarTurretData;
 		}
+	}
+
+	void ShowUpgradeUI(Vector3 pos, bool isDisableUpgrade = false){
+		StopCoroutine ("HideUpgradeUI");
+		upgradeCanvas.SetActive (false);
+		upgradeCanvas.SetActive (true);
+		upgradeCanvas.transform.position = pos;
+		buttonUpgrade.interactable = !isDisableUpgrade;
+	}
+
+	IEnumerator HideUpgradeUI(){
+		upgradeCanvasAnimator.SetTrigger ("Hide");
+		yield return new WaitForSeconds (0.8f);
+		upgradeCanvas.SetActive (false);
+	}
+
+	public void OnUpgradeButtonDown(){
+		 
+	}
+
+	public void OnDestroyButtonDown(){
 	}
 }

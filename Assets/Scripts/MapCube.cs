@@ -6,6 +6,10 @@ using UnityEngine.EventSystems;
 public class MapCube : MonoBehaviour {
 	[HideInInspector]
 	public GameObject turretGo;//保存当前Cube身上炮台
+
+	[HideInInspector]
+	public bool isUpgraded = false;
+
 	public GameObject buildEffect;
 
 	private Renderer renderers;
@@ -17,6 +21,7 @@ public class MapCube : MonoBehaviour {
 		if(turretPrefab!=null)
 		turretGo= GameObject.Instantiate (turretPrefab,transform.position,Quaternion.identity);
 		GameObject effect= GameObject.Instantiate (buildEffect,transform.position,Quaternion.identity);
+		isUpgraded = false;
 		Destroy (effect, 1);
 	}
 
