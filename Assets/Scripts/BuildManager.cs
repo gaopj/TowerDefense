@@ -13,7 +13,7 @@ public class BuildManager : MonoBehaviour {
 	private TurretDate selectedTurret;
 
 	//场景中显示UI的炮台
-	private GameObject selectedTurretUI;
+	private MapCube selectedMapCube;
 
 	public Text moneyText;
 
@@ -48,7 +48,7 @@ public class BuildManager : MonoBehaviour {
 						//可以创建
 						if (money >= selectedTurret.cost) {
 							ChangeMoney (-selectedTurret.cost);
-							mapCube.BuildTurret (selectedTurret.turretPrefab);	
+							mapCube.BuildTurret (selectedTurret);	
 						} else {
 							//提示钱不够
 							moneyAnimator.SetTrigger("Flicker");
@@ -56,12 +56,12 @@ public class BuildManager : MonoBehaviour {
 					} else if(mapCube.turretGo!=null){
 						//升级处理
 
-						if (mapCube.turretGo == selectedTurretUI && upgradeCanvas.activeInHierarchy) {
+						if (mapCube == selectedMapCube && upgradeCanvas.activeInHierarchy) {
 							StartCoroutine(HideUpgradeUI  ());
 						} else {
 							ShowUpgradeUI(mapCube.transform.position,mapCube.isUpgraded);
 						}
-						selectedTurretUI = mapCube.turretGo;
+						selectedMapCube = mapCube;
 					}
 				}
 			}
@@ -98,9 +98,12 @@ public class BuildManager : MonoBehaviour {
 	}
 
 	public void OnUpgradeButtonDown(){
-		 
+		selectedMapCube.UpgradeTurret ();
+		StartCoroutine(HideUpgradeUI ());
 	}
 
 	public void OnDestroyButtonDown(){
+		selectedMapCube.DestroyTurret ();
+		StartCoroutine(HideUpgradeUI ());
 	}
 }
