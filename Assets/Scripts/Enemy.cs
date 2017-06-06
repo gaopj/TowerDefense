@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
-	public int hp = 150;
-	private int totalHp ;
+	public float hp = 150;
+	private float totalHp ;
 	public float speed = 10;
 
 	public GameObject explosionEffect;
@@ -37,7 +37,9 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	//到达终点
 	void ReachDestination(){
+		GameManager.Instance.Failed ();
 		GameObject.Destroy (this.gameObject);
 	}
 
@@ -45,7 +47,7 @@ public class Enemy : MonoBehaviour {
 		EnemySpawner.CountEnemyAlive--;
 	}
 
-	public void TakeDamage(int damage){
+	public void TakeDamage(float damage){
 		if (hp <= 0)
 			return;
 		hp -= damage;

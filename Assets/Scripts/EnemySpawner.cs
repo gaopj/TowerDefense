@@ -8,9 +8,14 @@ public class EnemySpawner : MonoBehaviour {
 	public Wave[] waves;
 	public Transform START;
 	public float waveRate = 0.3f;
-
+	private Coroutine coroutine;
 	void Start(){
-		StartCoroutine (SpawnEnymy());
+		coroutine=StartCoroutine (SpawnEnymy());
+	}
+
+	public void Stop(){
+		//StopCoroutine ("SpawnEnymy");
+		StopCoroutine (coroutine);
 	}
 
 	IEnumerator SpawnEnymy(){
@@ -26,5 +31,10 @@ public class EnemySpawner : MonoBehaviour {
 			}
 			yield return new WaitForSeconds (waveRate);
 		}
+
+		while (CountEnemyAlive > 0) {
+			yield return 0;
+		}
+		GameManager.Instance.Win ();
 	}
 }

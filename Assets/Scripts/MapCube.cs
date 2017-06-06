@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 public class MapCube : MonoBehaviour {
 	[HideInInspector]
 	public GameObject turretGo;//保存当前Cube身上炮台
-	private TurretDate turretData;
-
+	[HideInInspector]
+	public TurretDate turretData;
 	[HideInInspector]
 	public bool isUpgraded = false;
 
